@@ -7,7 +7,6 @@ import {
   User,
   Menu,
   X,
-  Shield,
   Briefcase,
   Luggage,
   Sparkles,
@@ -102,15 +101,6 @@ export function Navbar() {
 
           {/* Right Action Icons */}
           <div className="hidden sm:flex items-center space-x-3">
-            {/* Admin Portal Quick Switch */}
-            <Link
-              to="/admin"
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-[#1E252B] text-[#FAF9F6] hover:bg-[#2D3748] transition-colors shadow-sm"
-              title="Switch to Hotel Management Portal"
-            >
-              <Shield className="w-3.5 h-3.5 text-[#C5A880]" />
-              <span>Admin Portal</span>
-            </Link>
 
             {/* My Trips */}
             <Link
@@ -340,14 +330,6 @@ export function Navbar() {
           </div>
 
           <div className="border-t border-gray-100 pt-3 flex flex-col gap-2">
-            <Link
-              to="/admin"
-              onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center justify-center gap-2 p-3 rounded-xl bg-[#1E252B] text-white text-xs font-bold"
-            >
-              <Shield className="w-4 h-4 text-[#C5A880]" />
-              <span>Open Hotel Admin Portal</span>
-            </Link>
             {user ? (
               <div className="flex items-center justify-between p-3 rounded-xl bg-gray-50 text-xs">
                 <div>
