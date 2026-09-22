@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import {
   LayoutDashboard,
   CalendarCheck,
@@ -22,7 +23,8 @@ import {
   ArrowUpRight,
   Shield,
   Sparkles,
-  ChevronRight
+  ChevronRight,
+  ArrowLeft
 } from 'lucide-react';
 import { useAdmin, AdminRoomItem, AdminMaintenanceItem } from '../../context/AdminContext';
 import { useBooking } from '../../context/BookingContext';
@@ -150,12 +152,34 @@ export function AdminDashboardPage() {
         <div className="pt-6 border-t border-white/10 text-[11px] text-gray-400 space-y-1">
           <p className="font-bold text-white">Console Session: Online</p>
           <p>Logged in as Chief Operations</p>
+          <Link
+            to="/"
+            className="mt-4 inline-flex items-center gap-1.5 text-[#C5A880] font-bold hover:text-white transition-colors"
+          >
+            <ArrowLeft className="w-3.5 h-3.5" />
+            Return to guest site
+          </Link>
         </div>
       </aside>
 
       {/* Main Admin Content Body */}
       <main className="flex-1 min-w-0 p-6 sm:p-10 overflow-y-auto">
-        
+        <div className="md:hidden flex items-center justify-between mb-6">
+          <div>
+            <p className="font-display text-lg font-bold text-[#1E252B]">
+              Stay<span className="text-[#C5A880]">Aura</span>
+            </p>
+            <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400">Admin Console</p>
+          </div>
+          <Link
+            to="/"
+            className="inline-flex items-center gap-1.5 rounded-lg border border-gray-200 bg-white px-3 py-2 text-[11px] font-bold text-gray-700"
+          >
+            <ArrowLeft className="w-3.5 h-3.5" />
+            Guest site
+          </Link>
+        </div>
+
         {/* Mobile Tab Switcher */}
         <div className="md:hidden flex items-center gap-2 overflow-x-auto pb-4 mb-6">
           {['overview', 'bookings', 'inventory', 'maintenance', 'coupons'].map((tab) => (
