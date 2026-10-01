@@ -28,6 +28,7 @@ import {
 } from 'lucide-react';
 import { useAdmin, AdminRoomItem, AdminMaintenanceItem } from '../../context/AdminContext';
 import { useBooking } from '../../context/BookingContext';
+import { useAuth } from '../../context/AuthContext';
 import { INITIAL_HOTELS } from '../../data/mockData';
 import { StatusBadge } from '../../components/common/StatusBadge';
 import { Coupon } from '../../types';
@@ -47,6 +48,7 @@ export function AdminDashboardPage() {
   } = useAdmin();
 
   const { bookings, checkInGuest, checkOutGuest, cancelBooking } = useBooking();
+  const { user, isAdminDemoAccount, logout } = useAuth();
 
   const [activeTab, setActiveTab] = useState<'overview' | 'bookings' | 'inventory' | 'maintenance' | 'coupons'>('overview');
   const [bookingFilter, setBookingFilter] = useState('All');
@@ -86,6 +88,22 @@ export function AdminDashboardPage() {
       b.hotelName.toLowerCase().includes(bookingSearch.toLowerCase());
     return matchesFilter && matchesSearch;
   });
+
+  if (!isAdminDemoAccount) {
+    return (
+      <main className="flex min-h-screen items-center justify-center bg-[#F7F6F2] px-4 py-12">
+        <section className="w-full max-w-lg rounded-3xl border border-gray-200 bg-white p-8 text-center shadow-xl">
+          <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-[#1E252B] text-[#C5A880]"><Shield className="h-7 w-7" /></div>
+          <p className="mt-5 text-xs font-bold uppercase tracking-[0.2em] text-[#977341]">StayAura Admin</p>
+          <h1 className="mt-2 font-display text-2xl font-bold text-gray-900">Admin sign-in required</h1>
+          <p className="mt-3 text-sm leading-relaxed text-gray-600">This prototype only recognizes the demo admin account. Sign in with <strong>admin@stayaura.demo</strong> and any password to preview the console.</p>
+          <Link to="/login" state={{ from: '/admin' }} className="mt-6 inline-flex items-center justify-center gap-2 rounded-xl bg-[#1E252B] px-5 py-3 text-sm font-bold text-white hover:bg-[#2D3748]">Continue to sign in</Link>
+          <p className="mt-4 text-[11px] text-amber-700">Demo access only. This client-side check is not production security.</p>
+          <Link to="/" className="mt-5 block text-xs font-semibold text-[#977341] hover:underline">Return to guest site</Link>
+        </section>
+      </main>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-[#F7F6F2] flex">
@@ -150,8 +168,9 @@ export function AdminDashboardPage() {
 
         {/* Admin Footer Badge */}
         <div className="pt-6 border-t border-white/10 text-[11px] text-gray-400 space-y-1">
-          <p className="font-bold text-white">Console Session: Online</p>
-          <p>Logged in as Chief Operations</p>
+          <p className="font-bold text-white">Demo admin session</p>
+          <p>Signed in as {user?.name || 'Admin'}</p>
+          <button type="button" onClick={logout} className="pt-2 font-semibold text-red-300 hover:text-white">Sign out</button>
           <Link
             to="/"
             className="mt-4 inline-flex items-center gap-1.5 text-[#C5A880] font-bold hover:text-white transition-colors"
