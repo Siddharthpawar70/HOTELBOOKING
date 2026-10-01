@@ -97,7 +97,7 @@ export function AdminDashboardPage() {
           <p className="mt-5 text-xs font-bold uppercase tracking-[0.2em] text-[#977341]">StayAura Admin</p>
           <h1 className="mt-2 font-display text-2xl font-bold text-gray-900">Admin sign-in required</h1>
           <p className="mt-3 text-sm leading-relaxed text-gray-600">This prototype only recognizes the demo admin account. Sign in with <strong>admin@stayaura.demo</strong> and any password to preview the console.</p>
-          <Link to="/login" state={{ from: '/admin' }} className="mt-6 inline-flex items-center justify-center gap-2 rounded-xl bg-[#1E252B] px-5 py-3 text-sm font-bold text-white hover:bg-[#2D3748]">Continue to sign in</Link>
+          <Link to="/admin/login" className="mt-6 inline-flex items-center justify-center gap-2 rounded-xl bg-[#1E252B] px-5 py-3 text-sm font-bold text-white hover:bg-[#2D3748]">Continue to sign in</Link>
           <p className="mt-4 text-[11px] text-amber-700">Demo access only. This client-side check is not production security.</p>
           <Link to="/" className="mt-5 block text-xs font-semibold text-[#977341] hover:underline">Return to guest site</Link>
         </section>

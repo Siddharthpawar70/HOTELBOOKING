@@ -4,14 +4,15 @@ This frontend currently demonstrates account screens only. There is no authentic
 
 ## Routes
 
-- `/login` shows the sign-in screen.
+- Unauthenticated visitors are sent to `/login` before entering the guest website.
+- `/login` shows the guest sign-in screen and links to `/register`.
 - `/register` creates a demo traveller profile after validating the form.
 - The existing user profile is saved in browser local storage. Passwords are never sent to a server or saved.
 - The Google button creates a clearly labelled demo profile; it does not contact Google.
 
 ## Admin preview
 
-Use `admin@stayaura.demo` on the sign-in page with any password to preview `/admin`. The client-side email check is for UI preview only and is not an access-control boundary.
+Open `/admin` (for example, from the Hotelier Admin Portal link) to see the separate admin sign-in page. Use `admin@stayaura.demo` with any password to preview the console. Guest accounts cannot enter the admin console. The client-side email check is for UI preview only and is not an access-control boundary.
 
 ## Production requirements
 

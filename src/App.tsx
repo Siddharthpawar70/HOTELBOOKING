@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, Outlet, useLocation } from 'react-router-dom';
 
 // Context Providers
 import { AuthProvider } from './context/AuthContext';
@@ -29,7 +29,9 @@ import { GroupBookingPage } from './pages/customer/GroupBookingPage';
 
 // Admin Page
 import { AdminDashboardPage } from './pages/admin/AdminDashboardPage';
+import { AdminLoginPage } from './pages/admin/AdminLoginPage';
 import { AuthPage } from './pages/AuthPage';
+import { useAuth } from './context/AuthContext';
 
 // Auto scroll-to-top on route change
 function ScrollToTop() {
@@ -44,34 +46,54 @@ function ScrollToTop() {
 function AppLayout() {
   const location = useLocation();
   const isAdmin = location.pathname.startsWith('/admin');
+  const isAuthPage = location.pathname === '/login' || location.pathname === '/register';
 
   return (
     <div className="flex flex-col min-h-screen">
-      {!isAdmin && <Navbar />}
+      {!isAdmin && !isAuthPage && <Navbar />}
       <main className="flex-1">
         <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/hotels" element={<HotelSearchResultsPage />} />
-          <Route path="/hotel/:id" element={<HotelDetailsPage />} />
-          <Route path="/checkout" element={<BookingCheckoutPage />} />
-          <Route path="/payment" element={<PaymentPage />} />
-          <Route path="/confirmation/:bookingId" element={<BookingConfirmationPage />} />
-          <Route path="/trips" element={<MyTripsPage />} />
-          <Route path="/wishlist" element={<WishlistPage />} />
-          <Route path="/profile" element={<UserProfilePage />} />
-          <Route path="/destinations" element={<DestinationsPage />} />
-          <Route path="/corporate" element={<CorporateStaysPage />} />
-          <Route path="/group-booking" element={<GroupBookingPage />} />
           <Route path="/login" element={<AuthPage key="login" mode="login" />} />
           <Route path="/register" element={<AuthPage key="register" mode="register" />} />
-          <Route path="/admin" element={<AdminDashboardPage />} />
+          <Route path="/admin/login" element={<AdminLoginPage />} />
+          <Route path="/admin" element={<AdminEntryPage />} />
+          <Route element={<RequireCustomerAuth />}>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/hotels" element={<HotelSearchResultsPage />} />
+            <Route path="/hotel/:id" element={<HotelDetailsPage />} />
+            <Route path="/checkout" element={<BookingCheckoutPage />} />
+            <Route path="/payment" element={<PaymentPage />} />
+            <Route path="/confirmation/:bookingId" element={<BookingConfirmationPage />} />
+            <Route path="/trips" element={<MyTripsPage />} />
+            <Route path="/wishlist" element={<WishlistPage />} />
+            <Route path="/profile" element={<UserProfilePage />} />
+            <Route path="/destinations" element={<DestinationsPage />} />
+            <Route path="/corporate" element={<CorporateStaysPage />} />
+            <Route path="/group-booking" element={<GroupBookingPage />} />
+          </Route>
           {/* Fallback to home */}
-          <Route path="*" element={<HomePage />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </main>
-      {!isAdmin && <Footer />}
+      {!isAdmin && !isAuthPage && <Footer />}
     </div>
   );
+}
+
+function RequireCustomerAuth() {
+  const { isAuthenticated, isAdminDemoAccount } = useAuth();
+  const location = useLocation();
+
+  if (isAdminDemoAccount) return <Navigate to="/admin" replace />;
+  if (!isAuthenticated) {
+    return <Navigate to="/login" state={{ from: `${location.pathname}${location.search}` }} replace />;
+  }
+  return <Outlet />;
+}
+
+function AdminEntryPage() {
+  const { isAdminDemoAccount } = useAuth();
+  return isAdminDemoAccount ? <AdminDashboardPage /> : <AdminLoginPage />;
 }
 
 export default function App() {
