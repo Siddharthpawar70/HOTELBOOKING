@@ -15,6 +15,7 @@ export interface UserProfile {
 interface AuthContextType {
   user: UserProfile | null;
   isAuthenticated: boolean;
+  isAdminDemoAccount: boolean;
   login: (email: string, name?: string) => void;
   logout: () => void;
   updateProfile: (updates: Partial<UserProfile>) => void;
@@ -23,26 +24,15 @@ interface AuthContextType {
   closeAuthModal: () => void;
 }
 
-const defaultUser: UserProfile = {
-  id: 'usr_rahul_99',
-  name: 'Rahul Mehta',
-  email: 'rahul.mehta@example.com',
-  phone: '+91 98200 12345',
-  city: 'Pune, Maharashtra',
-  loyaltyTier: 'Gold',
-  loyaltyPoints: 4850,
-  joinedDate: 'Jan 2024'
-};
-
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<UserProfile | null>(() => {
     try {
       const saved = localStorage.getItem('stayaura_user');
-      return saved ? JSON.parse(saved) : defaultUser;
+      return saved ? JSON.parse(saved) : null;
     } catch {
-      return defaultUser;
+      return null;
     }
   });
 
@@ -84,6 +74,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       value={{
         user,
         isAuthenticated: !!user,
+        isAdminDemoAccount: user?.email.trim().toLowerCase() === 'admin@stayaura.demo',
         login,
         logout,
         updateProfile,

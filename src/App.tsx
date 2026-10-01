@@ -29,6 +29,7 @@ import { GroupBookingPage } from './pages/customer/GroupBookingPage';
 
 // Admin Page
 import { AdminDashboardPage } from './pages/admin/AdminDashboardPage';
+import { AuthPage } from './pages/AuthPage';
 
 // Auto scroll-to-top on route change
 function ScrollToTop() {
@@ -61,6 +62,8 @@ function AppLayout() {
           <Route path="/destinations" element={<DestinationsPage />} />
           <Route path="/corporate" element={<CorporateStaysPage />} />
           <Route path="/group-booking" element={<GroupBookingPage />} />
+          <Route path="/login" element={<AuthPage key="login" mode="login" />} />
+          <Route path="/register" element={<AuthPage key="register" mode="register" />} />
           <Route path="/admin" element={<AdminDashboardPage />} />
           {/* Fallback to home */}
           <Route path="*" element={<HomePage />} />
