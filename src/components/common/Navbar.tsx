@@ -21,7 +21,7 @@ import { useNotifications } from '../../context/NotificationContext';
 import { useBooking } from '../../context/BookingContext';
 
 export function Navbar() {
-  const { user, logout, openAuthModal } = useAuth();
+  const { user, logout } = useAuth();
   const { wishlistIds } = useWishlist();
   const { notifications, unreadCount, markAsRead } = useNotifications();
   const { bookings } = useBooking();
@@ -248,7 +248,7 @@ export function Navbar() {
               </div>
             ) : (
               <button
-                onClick={openAuthModal}
+                onClick={() => navigate('/login')}
                 className="px-4 py-2 rounded-xl text-xs font-semibold bg-[#1E252B] text-white hover:bg-[#2D3748] transition-colors shadow-sm"
               >
                 Sign In
@@ -350,7 +350,7 @@ export function Navbar() {
               <button
                 onClick={() => {
                   setMobileMenuOpen(false);
-                  openAuthModal();
+                  navigate('/login');
                 }}
                 className="w-full py-3 rounded-xl bg-[#C5A880] text-[#1E252B] font-bold text-xs"
               >
