@@ -36,6 +36,10 @@ export function AuthPage({ mode }: AuthPageProps) {
       finishSignIn(email.trim(), name.trim());
       return;
     }
+    if (email.trim().toLowerCase() === 'admin@stayaura.demo') {
+      setError('Admin accounts use the separate admin sign-in page.');
+      return;
+    }
     finishSignIn(email.trim());
   };
 
@@ -64,7 +68,7 @@ export function AuthPage({ mode }: AuthPageProps) {
             {isRegister && <label className="block"><span className="mb-1.5 block text-xs font-bold text-gray-700">Confirm password</span><input required type="password" autoComplete="new-password" value={confirmPassword} onChange={(event) => setConfirmPassword(event.target.value)} className={inputClass} placeholder="Re-enter password" /></label>}
             {isRegister && <label className="flex items-start gap-2 text-xs leading-relaxed text-gray-600"><input checked={acceptTerms} onChange={(event) => setAcceptTerms(event.target.checked)} type="checkbox" className="mt-0.5 accent-[#977341]" /> I agree to the demo terms and privacy notice.</label>}
             {error && <p role="alert" className="rounded-xl bg-red-50 px-3 py-2 text-xs font-medium text-red-700">{error}</p>}
-            {!isRegister && <p className="rounded-xl bg-[#FAF5EB] px-3 py-2 text-xs text-[#765A32]">Admin preview: sign in as <strong>admin@stayaura.demo</strong>. Any password works in this prototype.</p>}
+            {!isRegister && <p className="rounded-xl bg-[#FAF5EB] px-3 py-2 text-xs text-[#765A32]">Hotel staff? <Link to="/admin" className="font-bold underline">Open the separate admin sign-in</Link>.</p>}
             <button type="submit" className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#1E252B] py-3 text-sm font-bold text-white shadow-md transition hover:bg-[#2D3748]">{isRegister ? 'Create demo account' : 'Sign in'} <ArrowRight className="h-4 w-4 text-[#C5A880]" /></button>
           </form>
 
